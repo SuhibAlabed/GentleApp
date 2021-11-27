@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "73598971793",
+    "project_id": "gentleman-v1-3",
+    "storage_bucket": "gentleman-v1-3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73598971793:android:72e8cb5f071c02d4f8f430",
+        "android_client_info": {
+          "package_name": "com.example.gentleman_v13"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73598971793-em3rnufg58s9uc2kls7jcpgda3toht9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6fE_ngM4L_I4GQu_Gy5XsYDnZfzAGXWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "73598971793-em3rnufg58s9uc2kls7jcpgda3toht9m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
