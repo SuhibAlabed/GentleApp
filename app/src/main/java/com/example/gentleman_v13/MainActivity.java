@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -25,15 +27,30 @@ import java.util.Map;
 
 public class MainActivity extends FragmentActivity {
     private static final String TAG = "MainActivity";
+    private FirebaseAuth mAuth;
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+//            currentUser.reload();
+            Intent MainPage = new Intent(getApplicationContext(),MainPage.class);
+            startActivity(MainPage);
+        }
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mAuth = FirebaseAuth.getInstance();
 
 
 
 
-        final Button GuestBtn = (Button) findViewById(R.id.GuestBtn);
+        final Button GuestBtn  = (Button) findViewById(R.id.GuestBtn);
         final Button SignUpBtn = (Button) findViewById(R.id.SignUpBtn);
         final Button LoginBtn  = (Button) findViewById(R.id.LoginBtn);
 
@@ -66,33 +83,15 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onClick(View view){
-//                Intent LoginPage= new Intent(getApplicationContext(),LoginPage.class);
-//                startActivity(LoginPage);
-                user.put("FirstName", "Suhib");
-                user.put("LastName", "Alabed");
-                user.put("Email", "suhib.alabed@gmail.com");
-                user.put("Age", 23);
-                user.put("PhoneNumber", "+962 778870791");
+                Intent LoginPage= new Intent(getApplicationContext(),LoginPage.class);
+                startActivity(LoginPage);
 
-                db.collection("users")
-                        .add(user)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                Toast toast = Toast.makeText(getApplicationContext(), "User Added Successfully", Toast.LENGTH_SHORT);
-                                toast.show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error adding document", e);
-                            }
-                        });
+
+
             }
         });
     }
+
 }
 
 //----------------Read Data----------------------
