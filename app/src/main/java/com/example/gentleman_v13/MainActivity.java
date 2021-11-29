@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends Utilities{
     private static final String TAG = "MainActivity";
     private FirebaseAuth mAuth;
     @Override
@@ -35,8 +35,9 @@ public class MainActivity extends FragmentActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
 //            currentUser.reload();
-            Intent MainPage = new Intent(getApplicationContext(),MainPage.class);
-            startActivity(MainPage);
+//            Intent MainPage = new Intent(getApplicationContext(),MainPage.class);
+//            startActivity(MainPage);
+            CheckAdmin(currentUser.getUid());
         }
 
     }

@@ -22,7 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SignUpPage extends AppCompatActivity {
+public class SignUpPage extends Utilities{
     private FirebaseAuth mAuth;
     private static final String TAG = "SignUpPage";
     EditText email;
@@ -31,12 +31,21 @@ public class SignUpPage extends AppCompatActivity {
     EditText age;
     EditText phoneNumber;
     Map<String, Object> user = new HashMap<>();
+
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            CheckAdmin(currentUser.getUid());
+        }
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_page);
         mAuth = FirebaseAuth.getInstance();
-
         name        = (EditText) findViewById(R.id.editTextTextPersonName);
         age         = (EditText) findViewById(R.id.editTextNumber);
         email       = (EditText) findViewById(R.id.editTextTextEmailAddress);
@@ -90,6 +99,7 @@ public class SignUpPage extends AppCompatActivity {
         user.put("Email", email);
         user.put("Age", age);
         user.put("PhoneNumber", phoneNumber);
+        user.put("Role","Customer");
 
         db.collection("users")
                 .add(user)
