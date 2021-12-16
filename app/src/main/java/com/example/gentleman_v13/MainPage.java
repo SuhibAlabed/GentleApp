@@ -43,22 +43,24 @@ public class MainPage extends Utilities implements NavigationView.OnNavigationIt
     private NavigationView navigationView;
     private BottomNavigationView bottomNavigation;
     private boolean mSlideState=false;
-    Map<String, Object> user = new HashMap<>();
+    //Map<String, Object> user = new HashMap<>();
     TextView UserName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
-        mAuth = FirebaseAuth.getInstance();
+        mAuth                                 = FirebaseAuth.getInstance();
 
-        UserName = (TextView) findViewById(R.id.Username);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        navigationView = findViewById(R.id.navigationView);
-        bottomNavigation = findViewById(R.id.bottom_navigation);
-        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        UserName                              = (TextView) findViewById(R.id.Username);
+        drawerLayout                          = (DrawerLayout) findViewById(R.id.drawerLayout);
 
-        HomeFragment homeFragment = new HomeFragment();
-        FavoritesFragment favoritesFragment = new FavoritesFragment();
+        navigationView                        = findViewById(R.id.navigationView);
+        bottomNavigation                      = findViewById(R.id.bottom_navigation);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        HomeFragment homeFragment             = new HomeFragment();
+        FavoritesFragment favoritesFragment   = new FavoritesFragment();
 
         //Listener for Sidebar items
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -66,7 +68,6 @@ public class MainPage extends Utilities implements NavigationView.OnNavigationIt
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.LogoutBtn:
-//                        sideBar();
                         signOut();
                         break;
                     case R.id.Settings:
@@ -75,26 +76,20 @@ public class MainPage extends Utilities implements NavigationView.OnNavigationIt
                 return true;
             }
         });
+
+
         //Listener for Bottom navigation
         bottomNavigation.setOnItemSelectedListener(new  NavigationBarView.OnItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.Home:
-//                        getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, homeFragment).commit();
                         getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, homeFragment).commit();
-//                        transaction.replace(R.id.flFragment, homeFragment);
-//                        transaction.addToBackStack(null);
-//                        transaction.commit();
                         return true;
                     case R.id.Menu:
                         sideBar();
                       break;
                     case R.id.Save:
-
-//                        transaction.replace(R.id.flFragment, favoritesFragment);
-//                        transaction.addToBackStack(null);
-//                        transaction.commit();
                         getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, favoritesFragment).commit();
                         return true;
                     default:
@@ -122,16 +117,17 @@ public class MainPage extends Utilities implements NavigationView.OnNavigationIt
 
     }
 
-//   When Start App
+//  When Start this Page
     public void onStart() {
         super.onStart();
+        bottomNavigation.setSelectedItemId(R.id.Home);
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             getData(currentUser.getUid());
-//            CheckAdmin(currentUser.getUid());
-//            Toast.makeText(getApplicationContext(), currentUser.getUid(),
-//                    Toast.LENGTH_SHORT).show();
+//           CheckAdmin(currentUser.getUid());
+//           Toast.makeText(getApplicationContext(), currentUser.getUid(),
+//           Toast.LENGTH_SHORT).show();
         }else{
             UserName.setText("Guest");
         }
@@ -139,15 +135,16 @@ public class MainPage extends Utilities implements NavigationView.OnNavigationIt
     }
 
 
-//Sign Out Button
+   //Sign Out Button
     public void signOut() {
         FirebaseAuth.getInstance().signOut();
         Intent MainActivity= new Intent(getApplicationContext(),MainActivity.class);
         startActivity(MainActivity);
     }
 
-    public void getData(String UserId){
 
+    //Retrieve The Date from Firebase by UserId
+    public void getData(String UserId){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users")
                 .whereEqualTo("UserId", UserId)
@@ -157,7 +154,7 @@ public class MainPage extends Utilities implements NavigationView.OnNavigationIt
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d(TAG, document.getId() + " => " + document.getData());
+                              //Log.d(TAG, document.getId() + " => " + document.getData());
                                 UserName.setText(document.getString("FullName"));
                             }
                         } else {
@@ -170,14 +167,6 @@ public class MainPage extends Utilities implements NavigationView.OnNavigationIt
 
 
 
-//    public void sideBar(){
-//        ActionBarDrawerToggle actionBarDrawerToggle  = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
-//        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-//        actionBarDrawerToggle.syncState();
-//        navigationView.setNavigationItemSelectedListener(this);
-//    }
-
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
@@ -187,6 +176,8 @@ public class MainPage extends Utilities implements NavigationView.OnNavigationIt
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+
+
 
     @SuppressLint("RtlHardcoded")
     public void sideBar() {
