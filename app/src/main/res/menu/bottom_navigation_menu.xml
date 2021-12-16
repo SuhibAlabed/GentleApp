@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item
+            android:id="@+id/Menu"
+            android:icon="@drawable/ic_baseline_menu_24"
+            android:title="Menu"
+            android:enabled="true"/>
+
+        <item
+            android:id="@+id/Home"
+            android:icon="@drawable/ic_round_home_24"
+            android:title="Home"
+            android:enabled="true"
+            />
+
+        <item
+            android:id="@+id/Save"
+            android:icon="@drawable/baseline_favorite_24"
+            android:title="Save"
+            android:enabled="true"
+            />
+    </group>
+</menu>

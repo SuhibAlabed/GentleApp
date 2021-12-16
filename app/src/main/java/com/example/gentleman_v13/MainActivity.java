@@ -4,18 +4,26 @@ import android.content.Context;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+//import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import android.widget.Toolbar;
+
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,9 +33,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class MainActivity extends Utilities{
+public class MainActivity extends Utilities {
     private static final String TAG = "MainActivity";
     private FirebaseAuth mAuth;
+
+
+
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+//    private Toolbar toolbar;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -42,11 +57,14 @@ public class MainActivity extends Utilities{
 
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
+
+
 
 
 
@@ -92,6 +110,9 @@ public class MainActivity extends Utilities{
             }
         });
     }
+
+
+
 
 }
 
