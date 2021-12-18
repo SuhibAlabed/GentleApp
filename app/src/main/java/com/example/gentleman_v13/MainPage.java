@@ -40,7 +40,7 @@ public class MainPage extends Utilities implements NavigationView.OnNavigationIt
     private static final String TAG = "MainPage";
     private Toolbar mToolbar;
     private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
+//    private NavigationView navigationView;
     private BottomNavigationView bottomNavigation;
     private boolean mSlideState=false;
     //Map<String, Object> user = new HashMap<>();
@@ -54,13 +54,15 @@ public class MainPage extends Utilities implements NavigationView.OnNavigationIt
         UserName                              = (TextView) findViewById(R.id.Username);
         drawerLayout                          = (DrawerLayout) findViewById(R.id.drawerLayout);
 
-        navigationView                        = findViewById(R.id.navigationView);
+        NavigationView navigationView         = findViewById(R.id.navigationView);
         bottomNavigation                      = findViewById(R.id.bottom_navigation);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        HomeFragment homeFragment             = new HomeFragment();
-        FavoritesFragment favoritesFragment   = new FavoritesFragment();
+        HomeFragment homeFragment               = new HomeFragment();
+        FavoritesFragment favoritesFragment     = new FavoritesFragment();
+        ProfileFragment profileFragment         = new ProfileFragment();
+        AppointmentFragment appointmentFragment = new AppointmentFragment();
 
         //Listener for Sidebar items
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -89,8 +91,14 @@ public class MainPage extends Utilities implements NavigationView.OnNavigationIt
                     case R.id.Menu:
                         sideBar();
                       break;
-                    case R.id.Save:
+                    case R.id.Bookmark:
                         getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, favoritesFragment).commit();
+                        return true;
+                    case R.id.Profile:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, profileFragment).commit();
+                        return true;
+                    case R.id.Appointment:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, appointmentFragment).commit();
                         return true;
                     default:
                         return false;

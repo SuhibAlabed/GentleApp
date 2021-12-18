@@ -1,22 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<group
+android:id="@+id/group1">
+    <item
+        android:id="@+id/Profile"
+        android:icon="@drawable/ic_baseline_person_pin_24"
+        android:title="Profile"
+        />
+    <item
+        android:id="@+id/Appointment"
+        android:icon="@drawable/ic_baseline_calendar_month_24"
+        android:title="Appointment"
+        />
+    <item
+        android:id="@+id/Bookmark"
+        android:icon="@drawable/baseline_bookmark_24"
+        android:title="Bookmark"
+        />
+</group>
     <group
-        android:id="@+id/group1"
+        android:id="@+id/group3"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/item1"
-            android:title="title_1"
-            />
-        <item
-            android:id="@+id/Settings"
-            android:title="Settings" />
-        <item
-            android:id="@+id/item3"
-            android:title="title_3" />
-        <item
-            android:id="@+id/LogoutBtn"
-            android:title="Logout"
-            />
+            android:id="@+id/about"
+            android:title="">
+            <menu >
+                <item
+                    android:id="@+id/Settings"
+                    android:icon="@drawable/ic_baseline_settings_24"
+                    android:title="Settings" />
+                <item
+                    android:id="@+id/About_Us"
+                    android:icon="@drawable/ic_baseline_article_24"
+                    android:title="About Us"
+                    />
+                <item
+                    android:id="@+id/Help"
+                    android:icon="@drawable/ic_baseline_help_24"
+                    android:title="Help"
+                    />
+            </menu>
+        </item>
     </group>
 
-</menu>
+<group
+android:id="@+id/group2"
+android:checkableBehavior="single">
+<item
+    android:id="@+id/subtitle"
+    android:title="">
+    <menu >
+        <item
+            android:id="@+id/LogoutBtn"
+            android:icon="@drawable/ic_baseline_login_24"
+            android:title="Logout"
+            />
+    </menu>
+</item>
+</group>
+
+    </menu>

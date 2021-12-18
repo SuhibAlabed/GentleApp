@@ -33,6 +33,7 @@
         android:layout_gravity="end"
         android:background="@color/primary_color"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:itemTextAppearanceActive="@style/Widget.NavigationView"
         app:menu="@menu/bottom_navigation_menu"
         tools:layout_editor_absoluteX="0dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -42,6 +43,7 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     app:menu="@menu/navigation_drawer"
+    app:itemTextAppearance="@style/Widget.NavigationView"
     android:background="@color/primary_color"
     android:layout_gravity="start">
 

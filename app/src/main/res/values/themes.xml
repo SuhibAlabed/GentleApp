@@ -14,4 +14,9 @@
     <style name="Theme.GentleMan_v13.AppBarOverlay"
         parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.GentleMan_v13.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="Widget.NavigationView" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/kharabeeshfont1</item>
+    </style>
 </resources>

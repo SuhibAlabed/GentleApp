@@ -8,17 +8,32 @@
             android:enabled="true"/>
 
         <item
+            android:id="@+id/Appointment"
+            android:icon="@drawable/ic_baseline_calendar_month_24"
+            android:title="Appointment"
+
+            android:enabled="true"/>
+
+        <item
             android:id="@+id/Home"
             android:icon="@drawable/ic_round_home_24"
             android:title="Home"
+
             android:enabled="true"
             />
 
         <item
-            android:id="@+id/Save"
-            android:icon="@drawable/baseline_favorite_24"
-            android:title="Save"
+            android:id="@+id/Bookmark"
+            android:icon="@drawable/baseline_bookmark_24"
+            android:title="Bookmark"
+            android:enabled="true"
+            />
+        <item
+            android:id="@+id/Profile"
+            android:icon="@drawable/ic_baseline_person_pin_24"
+            android:title="Profile"
             android:enabled="true"
             />
     </group>
 </menu>
+
