@@ -1,5 +1,6 @@
 package com.example.gentleman_v13;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,6 +29,7 @@ public class HomeFragment extends Fragment {
 
     public HomeFragment() {
         // Required empty public constructor
+
     }
 
     /**
@@ -52,13 +56,82 @@ public class HomeFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_home,
+                container, false);
+
+
+        Button HaircutBtn          = (Button) rootView.findViewById(R.id.BtnHaircut);
+        Button HairdryerBtn        = (Button) rootView.findViewById(R.id.HairdryerBtn);
+        Button HairColorBtn        = (Button) rootView.findViewById(R.id.HairColoringBtn);
+        Button HairStraightBtn     = (Button) rootView.findViewById(R.id.HairStraightBtn);
+        Button HairStyleBtn        = (Button) rootView.findViewById(R.id.HairStyleBtn);
+        Button ShavingBtn          = (Button) rootView.findViewById(R.id.ShavingBtn);
+
+        HaircutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent BookingAppointment= new Intent(getActivity(),BookingAppointmentActivity.class);
+                BookingAppointment.putExtra("Service", "Hair Cut");
+                startActivity(BookingAppointment);
+            }
+        });
+        HairdryerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent BookingAppointment= new Intent(getActivity(),BookingAppointmentActivity.class);
+                BookingAppointment.putExtra("Service", "Hair Dryer");
+                startActivity(BookingAppointment);
+            }
+        });
+
+        HairColorBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent BookingAppointment= new Intent(getActivity(),BookingAppointmentActivity.class);
+                BookingAppointment.putExtra("Service", "Hair Coloring");
+                startActivity(BookingAppointment);
+            }
+        });
+
+        HairStraightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent BookingAppointment= new Intent(getActivity(),BookingAppointmentActivity.class);
+                BookingAppointment.putExtra("Service", "Hair Straight");
+                startActivity(BookingAppointment);
+            }
+        });
+
+        HairStyleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent BookingAppointment= new Intent(getActivity(),BookingAppointmentActivity.class);
+                BookingAppointment.putExtra("Service", "Hair Style");
+                startActivity(BookingAppointment);
+            }
+        });
+
+        ShavingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent BookingAppointment= new Intent(getActivity(),BookingAppointmentActivity.class);
+                BookingAppointment.putExtra("Service", "Bread Shaving");
+                startActivity(BookingAppointment);
+            }
+        });
+        return rootView;
+//        return inflater.inflate(R.layout.fragment_home, container, false);
+
     }
+
+
 }

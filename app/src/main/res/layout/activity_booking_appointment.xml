@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BookingAppointmentActivity"
+    android:background="#331B1B"
+    android:fontFamily="@font/kharabeeshfont1"
+    >
+
+    <TextView
+        android:id="@+id/ServiceTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/kharabeeshfont1"
+        android:textAlignment="center"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editDatePickerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/kharabeeshfont1"
+        android:textColor="#fff"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ServiceTxt"
+        app:startIconDrawable="@drawable/ic_baseline_date_range_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editDatePicker"
+            android:editable="false"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/light_orange"
+            android:fontFamily="@font/kharabeeshfont1"
+            android:hint="Select Date"
+            android:inputType="none"
+            android:singleLine="true"
+
+            android:textColor="#fff"
+            app:expandedHintEnabled="false" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+<!--    <GridLayout-->
+<!--        android:id="@+id/grid_layout_radio_button"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="5sp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:columnCount="3"-->
+<!--        android:rowCount="5"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/editDatePickerLayout"-->
+<!--        tools:ignore="MissingConstraints"-->
+<!--        tools:layout_editor_absoluteX="5dp">-->
+
+
+    <RadioGroup
+        android:id="@+id/radio_group_available_slot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/kharabeeshfont1"
+        android:longClickable="false"
+        android:nestedScrollingEnabled="false"
+        android:orientation="horizontal"
+        android:outlineProvider="none"
+        android:overScrollMode="never"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editDatePickerLayout">
+
+        <GridView
+            android:id="@+id/grid_layout_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:horizontalSpacing="6dp"
+            android:choiceMode="singleChoice"
+            android:numColumns="2"
+            android:background="@color/primary_color"
+            android:verticalSpacing="3dp"
+            />
+    </RadioGroup>
+
+
+    <TextView
+        android:id="@+id/no_time_available"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/kharabeeshfont1"
+        android:text="No Time Available"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/BookAppointmentBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:fontFamily="@font/kharabeeshfont1"
+        android:text="Book Appointment"
+        android:background="@color/primary_color"
+        android:textColor="#fff"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+       />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

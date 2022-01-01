@@ -195,4 +195,6 @@ public class MainPage extends Utilities implements NavigationView.OnNavigationIt
             drawerLayout.openDrawer(Gravity.LEFT);
         }
     }
+
+
 }

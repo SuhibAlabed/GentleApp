@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryDark">@color/purple_700</item>
         <item name="colorAccent">@color/teal_200</item>
+        <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button</item>
         <!-- Customize your theme here. -->
     </style>
     <style name="Theme.GentleMan_v13.NoActionBar">
@@ -18,5 +19,13 @@
 
     <style name="Widget.NavigationView" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/kharabeeshfont1</item>
+    </style>
+    <style name="ThemeOverlay.GentleMan_v13" parent="@style/ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorOnPrimary">@color/primary_color</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
+        <!-- Customize text field of the text input mode. -->
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.FilledBox</item>
     </style>
 </resources>
