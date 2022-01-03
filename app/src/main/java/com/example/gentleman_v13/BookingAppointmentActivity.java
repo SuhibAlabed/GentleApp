@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +27,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,39 +45,47 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BookingAppointmentActivity extends AppCompatActivity {
+//    private FirebaseAuth mAuth;
     GridView gridView;
-    ArrayAdapter<String> adapter;
     Button BookAppointmentBtn;
+    ArrayAdapter<String> adapter;
+
     private RadioGroup radioGroup;
     EditText pkDate;
     TextView ServiceTxt;
     TextView NoTimeAva;
     private String Service;
     private static final String TAG = "BookingAppointmentActivity";
-    Map<String, Object> AvailableSlot = new HashMap<>();
-    ArrayList<String> listAvailableSlot = new ArrayList<String>();
-//    DatePickerDialog.onDateSetListener setListener;
+    Map<String, Object> AvailableSlot     = new HashMap<>();
+    Map<String,Object>  Booking           = new HashMap<>();
+    Map<String,Object>  BookingDetails    = new HashMap<>();
+    ArrayList<String>   listAvailableSlot = new ArrayList<String>();
+//    FirebaseUser currentUser = mAuth.getCurrentUser();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_appointment);
-//        pkDate.setShowSoftInputOnFocus(false);
-        NoTimeAva = findViewById(R.id.no_time_available);
-        pkDate = findViewById(R.id.editDatePicker);
-        ServiceTxt = findViewById(R.id.ServiceTxt);
-        Service = getIntent().getStringExtra("Service");
-        ServiceTxt.setText(Service);
+
+
+        NoTimeAva         = findViewById(R.id.no_time_available);
+        pkDate            = findViewById(R.id.editDatePicker);
+        ServiceTxt        = findViewById(R.id.ServiceTxt);
+        Service           = getIntent().getStringExtra("Service");
+
         Calendar calendar = Calendar.getInstance();
-        final int year  = calendar.get(Calendar.YEAR);
-        final int month = calendar.get(Calendar.MONTH);
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        final int year    = calendar.get(Calendar.YEAR);
+        final int month   = calendar.get(Calendar.MONTH);
+        final int day     = calendar.get(Calendar.DAY_OF_MONTH);
+
+        ServiceTxt.setText(Service);
         pkDate.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 DatePickerDialog datePickerDialog = new DatePickerDialog(BookingAppointmentActivity.this,new DatePickerDialog.OnDateSetListener(){
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        month = month +1;
+                        month = month + 1;
                         String date = day +"-"+ month + "-" +year;
                         pkDate.setText(date);
                         removeRadioGroup();
@@ -80,7 +93,7 @@ public class BookingAppointmentActivity extends AppCompatActivity {
                     }
                 },year,month,day);
                 datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
-//                datePickerDialog.getDatePicker().setMaxDate(calendar);
+//              datePickerDialog.getDatePicker().setMaxDate(calendar);
                 datePickerDialog.show();
             }
         });
@@ -89,26 +102,6 @@ public class BookingAppointmentActivity extends AppCompatActivity {
 
     private void createAvailableSlot(String Date,String Service) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        DocumentReference docRef = db.collection("AvailableSlot").document(Date);
-//        db.collection("AvailableSlot").whereEqualTo("Date",Date)
-//        .get()
-//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            DocumentSnapshot document =  task.getResult();
-//                            if (document.exists()) {
-//                                AvailableSlot= document.getData();
-//                                assert AvailableSlot != null;
-//                                createRadioGroup((Map<String, Object>) AvailableSlot.get("Time"));
-//                            } else {
-//                                Log.d(TAG, "No such document");
-//                            }
-//                        } else {
-//                            Log.d(TAG, "get failed with ", task.getException());
-//                        }
-//                    }
-//                });
         db.collection("AvailableSlot")
                 .whereEqualTo("Date", Date)
                 .orderBy("Service", Query.Direction.ASCENDING)
@@ -145,16 +138,62 @@ public class BookingAppointmentActivity extends AppCompatActivity {
         }
 
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, listAvailableSlot);
+        adapter = new ArrayAdapter<String>(this, R.layout.list_item_single_choice, listAvailableSlot);
         gridView.setAdapter(adapter);
-
 
         BookAppointmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(BookingAppointmentActivity.this, "You Clicked me " + String.valueOf(listAvailableSlot.get(gridView.getCheckedItemPosition())), Toast.LENGTH_SHORT).show();
+                try{
+                    CreateFireStore(String.valueOf(listAvailableSlot.get(gridView.getCheckedItemPosition())),pkDate.getText().toString());
+                }catch(Exception e){
+                    Toast.makeText(BookingAppointmentActivity.this, "Select Time Please! ", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
+
+    }
+
+
+
+    public void CreateFireStore(String Time,String Date){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+            Booking.put("Service", Service);
+            Booking.put("Date", Date);
+            Booking.put("Time", Time);
+            Booking.put("UserId", user.getUid());
+//            BookingDetails.put("BookingDetails",Booking);
+
+            db.collection("Booking")
+                    .add(Booking)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+
+                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                            Toast toast = Toast.makeText(getApplicationContext(), "Booking Added Successfully", Toast.LENGTH_SHORT);
+                            toast.show();
+                            Intent MainPage= new Intent(getApplicationContext(),MainPage.class);
+                            startActivity(MainPage);
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error adding document", e);
+                        }
+                    });
+        }else{
+            Intent LoginPage= new Intent(getApplicationContext(),LoginPage.class);
+            startActivity(LoginPage);
+        }
+
+
+
 
     }
 

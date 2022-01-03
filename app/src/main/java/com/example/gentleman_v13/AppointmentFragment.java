@@ -2,11 +2,27 @@ package com.example.gentleman_v13;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import android.widget.ListView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +40,22 @@ public class AppointmentFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    ListView  listView;
+
+    AppointmentAdapter adapter;
+
+
+    TextView ServicesText ;
+    TextView DateText    ;
+    TextView TimeText     ;
+    Map<String, Object> Appointments      = new HashMap<>();
+    ArrayList<Map<String, Object>> listBookingAppointment = new ArrayList<Map<String, Object>>();
+    public static ArrayList<String> listDatesBooking = new ArrayList<String>();
+    public static ArrayList<String> listTimeBooking = new ArrayList<String>();
+
+
+//    ArrayAdapter<String> adapter;
+    private static final String TAG = "BookingAppointmentActivity";
     public AppointmentFragment() {
         // Required empty public constructor
     }
@@ -53,12 +85,73 @@ public class AppointmentFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_appointment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_appointment,
+                container, false);
+
+        return rootView;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view,@NonNull Bundle savedInstanceState){
+        super.onViewCreated(view,savedInstanceState);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+            GetBookingAppointment();
+        }
+
+        listView = (ListView) view.findViewById(R.id.list_layout_appointment);
+
+    }
+
+    private void GetBookingAppointment(){
+        removeRadioGroup();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        db.collection("Booking")
+                .whereEqualTo("UserId", user.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful() ) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Appointments= document.getData();
+//                                Log.d(TAG, document.getId() + " => " + document.getData());
+
+                                createAppointmentsCard((Map<String, Object>) Appointments);
+                            }
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+
+                    }
+                });
+    }
+
+    private void createAppointmentsCard(Map<String, Object> appointments) {
+
+        listBookingAppointment.add(appointments);
+
+        adapter = new AppointmentAdapter(getActivity(), listBookingAppointment );
+
+        listView.setAdapter(adapter);
+
+    }
+
+    private void removeRadioGroup(){
+        if(adapter != null){
+            adapter.notifyDataSetChanged();
+        }
+        listBookingAppointment.clear();
+    }
+
+
 }

@@ -51,24 +51,25 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-<!--    <GridLayout-->
-<!--        android:id="@+id/grid_layout_radio_button"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="5sp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:columnCount="3"-->
-<!--        android:rowCount="5"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/editDatePickerLayout"-->
-<!--        tools:ignore="MissingConstraints"-->
-<!--        tools:layout_editor_absoluteX="5dp">-->
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="11dp"
+        android:fontFamily="@font/kharabeeshfont1"
+        android:text="Available Slot"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/radio_group_available_slot"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editDatePickerLayout" />
 
     <RadioGroup
         android:id="@+id/radio_group_available_slot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         android:fontFamily="@font/kharabeeshfont1"
         android:longClickable="false"
         android:nestedScrollingEnabled="false"
@@ -84,12 +85,10 @@
             android:id="@+id/grid_layout_radio_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:horizontalSpacing="6dp"
             android:choiceMode="singleChoice"
+            android:horizontalSpacing="6dp"
             android:numColumns="2"
-            android:background="@color/primary_color"
-            android:verticalSpacing="3dp"
-            />
+            android:verticalSpacing="3dp" />
     </RadioGroup>
 
 

@@ -28,4 +28,9 @@
         <!-- Customize text field of the text input mode. -->
         <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.FilledBox</item>
     </style>
+    <style name="CustomRadioTheme" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:colorControlNormal">#7a7a7a</item>
+        <item name="android:colorControlActivated">#fff</item>
+        <item name="android:colorControlHighlight">#fff</item>
+    </style>
 </resources>
