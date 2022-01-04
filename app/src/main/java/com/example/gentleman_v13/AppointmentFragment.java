@@ -1,5 +1,7 @@
 package com.example.gentleman_v13;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,8 @@ import java.util.HashMap;
 import java.util.Map;
 import android.widget.ListView;
 
+import org.w3c.dom.Text;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link AppointmentFragment#newInstance} factory method to
@@ -40,21 +44,16 @@ public class AppointmentFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    ListView  listView;
 
+
+    ListView  listView;
     AppointmentAdapter adapter;
 
-
-    TextView ServicesText ;
-    TextView DateText    ;
-    TextView TimeText     ;
-    Map<String, Object> Appointments      = new HashMap<>();
+    Map<String, Object> Appointments                      = new HashMap<>();
     ArrayList<Map<String, Object>> listBookingAppointment = new ArrayList<Map<String, Object>>();
-    public static ArrayList<String> listDatesBooking = new ArrayList<String>();
-    public static ArrayList<String> listTimeBooking = new ArrayList<String>();
 
 
-//    ArrayAdapter<String> adapter;
+
     private static final String TAG = "BookingAppointmentActivity";
     public AppointmentFragment() {
         // Required empty public constructor
@@ -88,6 +87,7 @@ public class AppointmentFragment extends Fragment {
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,12 +95,41 @@ public class AppointmentFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_appointment,
                 container, false);
 
+        TextView AskLogInText = (TextView) rootView.findViewById(R.id.AskLoginText);
+        TextView  AskRegisterInText = (TextView) rootView.findViewById(R.id.AskRegister);
+        TextView  OrText            = (TextView) rootView.findViewById(R.id.OrText);
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            AskLogInText.setText("Login");
+            OrText.setText("Or");
+            AskRegisterInText.setText("Register");
+            AskLogInText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent LoginPage= new Intent(getActivity(),LoginPage.class);
+                    startActivity(LoginPage);
+                }
+            });
+
+            AskRegisterInText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent LoginPage= new Intent(getActivity(),SignUpPage.class);
+                    startActivity(LoginPage);
+                }
+            });
+        }
+
         return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view,@NonNull Bundle savedInstanceState){
         super.onViewCreated(view,savedInstanceState);
+
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
             GetBookingAppointment();

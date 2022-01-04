@@ -1,5 +1,6 @@
 package com.example.gentleman_v13;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +64,38 @@ public class FavoritesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorites, container, false);
+//        return inflater.inflate(R.layout.fragment_favorites, container, false);
+
+        View rootView = inflater.inflate(R.layout.fragment_favorites,
+                container, false);
+
+        TextView  AskLogInText      = (TextView) rootView.findViewById(R.id.AskLoginText);
+        TextView  AskRegisterInText = (TextView) rootView.findViewById(R.id.AskRegister);
+        TextView  OrText            = (TextView) rootView.findViewById(R.id.OrText);
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            AskLogInText.setText("Login");
+            OrText.setText("Or");
+            AskRegisterInText.setText("Register");
+            AskLogInText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent LoginPage= new Intent(getActivity(),LoginPage.class);
+                    startActivity(LoginPage);
+                }
+            });
+
+            AskRegisterInText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent LoginPage= new Intent(getActivity(),SignUpPage.class);
+                    startActivity(LoginPage);
+                }
+            });
+        }
+
+        return rootView;
     }
 }
